@@ -3,9 +3,10 @@ const {
 } = require("mongoose");
 
 const kittySchema = new mongoose.Schema({
-  name: String,
+  fullname: String,
   email: String,
-  city: String,
+  password: String,
+  token: String
 });
 
 const User = mongoose.model('user', kittySchema);

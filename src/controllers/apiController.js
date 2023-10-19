@@ -15,9 +15,10 @@ const getUsersApi = async (req, res) => {
 const postUserApi = async (req, res) => {
   try {
     const results = await User.create({
-      name: req.body.name,
+      fullname: req.body.fullname,
       email: req.body.email,
-      city: req.body.city
+      password: req.body.password,
+      token: req.body.token
     })
     return res.status(200).json({
       errorCode: 0,
@@ -30,7 +31,50 @@ const postUserApi = async (req, res) => {
       data: null
     })
   }
-
+}
+const updateUserApi = async (req, res) => {
+  try {
+    const {
+      id,
+      fullname,
+      email,
+      password,
+      token
+    } = req.body;
+    const results = await User.updateOne({
+      _id: id
+    }, {
+      fullname,
+      email,
+      password,
+      token
+    });
+    return res.status(200).json({
+      errorCode: 0,
+      data: results
+    })
+  } catch (error) {
+    console.log(error);
+    return res.status(200).json({
+      errorCode: 0,
+      data: null
+    })
+  }
+}
+const deleteUserApi = async (req, res) => {
+  try {
+    const results = await User.deleteById(req.id);
+    return res.status(200).json({
+      errorCode: 0,
+      data: results
+    })
+  } catch (error) {
+    console.log(error);
+    return res.status(200).json({
+      errorCode: 0,
+      data: null
+    })
+  }
 }
 const postUploadSingleFile = async (req, res) => {
   console.log('req file = ', req.files);
@@ -62,5 +106,7 @@ module.exports = {
   getUsersApi,
   postUploadSingleFile,
   postUploadMultipleFile,
-  postUserApi
+  postUserApi,
+  updateUserApi,
+  deleteUserApi
 }
