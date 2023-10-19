@@ -5,7 +5,8 @@ const {
   postUploadSingleFile,
   postUploadMultipleFile,
   postUserApi,
-  updateUserApi
+  updateUserApi,
+  deleteUserApi
 } = require('../controllers/apiController');
 const {
   postCreateCustomer,
@@ -36,6 +37,7 @@ routerApi.get('/', (req, res) => {
 routerApi.get('/users', getUsersApi);
 routerApi.post('/users', postUserApi);
 routerApi.put('/users', updateUserApi);
+routerApi.delete('/users', deleteUserApi)
 
 routerApi.post('/files', postUploadSingleFile)
 routerApi.post('/file', postUploadMultipleFile)
