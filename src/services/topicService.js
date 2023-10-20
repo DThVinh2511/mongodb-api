@@ -18,11 +18,12 @@ module.exports = {
       const page = queryString.page;
       const {
         filter,
-        limit
+        limit,
+        projection
       } = aqp(queryString);
       const skip = (page - 1) * limit;
       delete filter.page;
-      const results = await Topic.find(filter).skip(skip).limit(limit).exec();
+      const results = await Topic.find(filter).select(projection).skip(skip).limit(limit).exec();
       return results;
     } catch (error) {
       console.log(error);
