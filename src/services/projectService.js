@@ -7,6 +7,7 @@ const postCreateProjectService = async (data) => {
     return results;
   } else if (data.type === "ADD_USER") {
     let myProject = await Project.findById(data.projectId).exec();
+    console.log(myProject);
     for (let i = 0; i < data.userArr.length; i++) {
       myProject.usersInfor.push(data.userArr[i]);
     }

@@ -1,12 +1,24 @@
 const User = require('../models/user');
+const aqp = require('api-query-params');
 const {
   uploadSingleFile,
   uploadMultipleFile
 } = require('../services/filesService');
 
 const getUsersApi = async (req, res) => {
-  const results = await User.find({});
-
+  let results = null
+  const limit = req.query.limit;
+  const page = req.query.page;
+  if (limit && page) {
+    const skip = (page - 1) * limit;
+    const {
+      filter
+    } = aqp(req.query);
+    delete filter.page;
+    results = await User.find(filter).skip(skip).limit(limit).exec();
+  } else {
+    results = await User.find({});
+  }
   return res.status(200).json({
     errorCode: 0,
     data: results
@@ -63,7 +75,7 @@ const updateUserApi = async (req, res) => {
 }
 const deleteUserApi = async (req, res) => {
   try {
-    const results = await User.deleteById(req.id);
+    const results = await User.deleteById(req.body.id);
     return res.status(200).json({
       errorCode: 0,
       data: results
